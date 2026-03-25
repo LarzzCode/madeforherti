@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  background-color: #000;
+  overflow: hidden;
+}
+
+/* Container utama buku */
+.book-wrapper {
+  perspective: 2000px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 1s ease-in-out;
+}
+
+/* Logika Halaman */
+.page-container {
+  position: relative;
+  width: 300px;
+  height: 450px;
+  transform-style: preserve-3d;
+  transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transform-origin: left;
+}
+
+@media (min-width: 768px) {
+  .page-container {
+    width: 380px;
+    height: 520px;
+  }
+}
+
+/* Saat terbuka: halaman berputar 180 derajat ke kiri */
+.page-is-flipped {
+  transform: rotateY(-180deg);
+}
+
+/* Menghilangkan bayangan cermin agar teks tidak terbalik */
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
