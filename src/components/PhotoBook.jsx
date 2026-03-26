@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 
 const memories = [
   { left: "/Foto (2).jpg", right: "/Foto (1).jpg", text: "Di titik ini semua bermula, saat semesta memperkenalkan kita ✨" },
-  { left: "/Foto (3).JPG", right: "/Foto (4).png", text: "Bangga melihat kita yang sekarang. Let's grow and grow up together! ❤️" },
+  { left: "/Foto (3).JPG", right: "/Foto (4).png", text: "Bangga melihat kita yang sekarang. Let's glow and grow up together! ❤️" },
   { left: "/Foto (5).png", right: "/Foto (6).jpg", text: "Selamat ke-18. Semoga kedewasaan membawamu pada bahagia yang tak putus 💍" },
 ];
 
@@ -20,7 +20,7 @@ const burstPhotos = [
 const Typewriter = ({ text }) => {
   const characters = Array.from(text);
   return (
-    <motion.h2 className="text-white font-medium tracking-tight text-[8px] sm:text-[10px] md:text-xs uppercase bg-black/40 backdrop-blur-md px-4 py-1.5 rounded-lg border border-[#ff007f]/30 shadow-lg text-center max-w-[85vw] leading-tight z-50">
+    <motion.h2 className="text-white font-medium tracking-tight text-[8px] sm:text-[10px] md:text-xs uppercase bg-black/60 backdrop-blur-md px-4 py-2 rounded-xl border border-[#ff007f]/30 shadow-2xl text-center max-w-[70vw] leading-tight z-50">
       {characters.map((char, i) => (
         <motion.span key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.01, delay: i * 0.02 }}>
           {char}
@@ -81,13 +81,13 @@ const PhotoBook = () => {
   };
 
   const slideVariants = {
-    enter: (direction) => ({ x: direction > 0 ? 500 : -500, opacity: 0, rotateY: direction > 0 ? 45 : -45 }),
-    center: { x: 0, opacity: 1, rotateY: 0, transition: { x: { type: "spring", stiffness: 300, damping: 30 }, opacity: { duration: 0.2 } } },
-    exit: (direction) => ({ x: direction < 0 ? 500 : -500, opacity: 0, rotateY: direction < 0 ? 45 : -45, transition: { x: { type: "spring", stiffness: 300, damping: 30 }, opacity: { duration: 0.2 } } })
+    enter: (direction) => ({ x: direction > 0 ? 600 : -600, opacity: 0, rotateY: direction > 0 ? 30 : -30 }),
+    center: { x: 0, opacity: 1, rotateY: 0, transition: { x: { type: "spring", stiffness: 250, damping: 25 }, opacity: { duration: 0.3 } } },
+    exit: (direction) => ({ x: direction < 0 ? 600 : -600, opacity: 0, rotateY: direction < 0 ? 30 : -30, transition: { x: { type: "spring", stiffness: 250, damping: 25 }, opacity: { duration: 0.3 } } })
   };
 
   return (
-    <div className="fixed inset-0 w-full h-full bg-black font-sans flex flex-col items-center justify-center overflow-hidden perspective-1000">
+    <div className="fixed inset-0 w-full h-full bg-black font-sans flex items-center justify-center overflow-hidden perspective-1000">
       
       {/* BACKGROUND STARS */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -112,35 +112,56 @@ const PhotoBook = () => {
             onClick={() => { setDirection(1); setStep(1); }} className="cursor-pointer relative z-10 flex flex-col items-center">
             <div className="absolute -inset-10 bg-[#ff007f] opacity-20 blur-[50px] animate-pulse" />
             <div className="relative w-[170px] h-[230px] sm:w-[200px] sm:h-[280px] bg-white rounded-xl flex flex-col items-center justify-center p-6 border-2 border-[#ff007f] shadow-2xl">
-                <h1 className="text-stone-800 font-black text-xl italic uppercase">FOR <span className="text-[#ff007f]">Herti.</span></h1>
+                <h1 className="text-stone-800 font-black text-xl italic uppercase tracking-tighter">FOR <span className="text-[#ff007f]">Herti.</span></h1>
                 <p className="text-[7px] text-stone-400 mt-4 uppercase tracking-[0.3em] animate-pulse">Tap to Open</p>
             </div>
           </motion.div>
         )}
 
         {step === 1 && !isPortrait && (
-          <motion.div key={`slide-${slide}`} custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit"
-            className="relative z-10 w-full h-full grid grid-rows-[auto_1fr_auto] items-center justify-items-center py-2 sm:py-4 px-2"
+          <motion.div 
+            key={`slide-${slide}`} 
+            custom={direction} 
+            variants={slideVariants} 
+            initial="enter" 
+            animate="center" 
+            exit="exit"
+            className="relative z-10 w-full h-full flex flex-col items-center justify-center px-4"
           >
-            <div className="w-full flex justify-center self-start mt-2 h-10">
+            {/* TEXT (ABSOLUTE TOP) */}
+            <div className="absolute top-4 sm:top-6 w-full flex justify-center z-50">
               <Typewriter key={slide} text={memories[slide].text} />
             </div>
 
-            <div className="flex flex-row gap-2 sm:gap-4 justify-center items-center w-full min-h-0">
+            {/* PHOTOS (CENTER) */}
+            <div className="flex flex-row gap-3 sm:gap-6 justify-center items-center w-full max-h-[75vh]">
               {[memories[slide].left, memories[slide].right].map((img, idx) => (
-                <div key={idx} className="relative h-[60vh] sm:h-[65vh] md:h-[72vh] aspect-[3/4] shadow-[0_0_25px_rgba(255,0,127,0.4)] rounded-xl border-2 border-[#ff007f]/40 overflow-hidden bg-white p-1">
-                  <img src={img} className="w-full h-full object-cover rounded-md" alt="Herti" />
+                <div key={idx} className="relative h-[65vh] sm:h-[70vh] aspect-[3/4.2] shadow-[0_0_30px_rgba(255,0,127,0.35)] rounded-2xl border-2 border-[#ff007f]/40 overflow-hidden bg-white p-1.5">
+                  <img src={img} className="w-full h-full object-cover rounded-xl" alt="Herti" />
                 </div>
               ))}
             </div>
 
-            <div className="flex flex-row gap-4 self-end pb-3">
-              <button onClick={handlePrev} disabled={slide === 0}
-                className={`px-6 py-2 border border-[#ff007f]/50 text-white rounded-full font-bold text-[8px] sm:text-[10px] uppercase tracking-widest transition-all ${slide === 0 ? 'opacity-0 pointer-events-none' : 'opacity-100 hover:bg-[#ff007f]/10'}`}>
-                ← Prev
+            {/* FLOATING NAVIGATION */}
+            {/* PREV (LEFT) */}
+            <div className={`absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-[60] transition-opacity duration-300 ${slide === 0 ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+              <button onClick={handlePrev} className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-black/40 border border-white/20 text-white backdrop-blur-md active:scale-90 shadow-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
               </button>
-              <button onClick={handleNext} className="px-8 py-2.5 bg-[#ff007f] text-white rounded-full font-bold text-[8px] sm:text-[10px] uppercase tracking-[0.2em] shadow-[0_0_15px_#ff007f] active:scale-95 transition-all">
-                {slide === memories.length - 1 ? "Final Surprise ❤️" : "Next →"}
+            </div>
+
+            {/* NEXT (RIGHT) */}
+            <div className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-[60]">
+              <button onClick={handleNext} className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-[#ff007f] text-white shadow-[0_0_20px_rgba(255,0,127,0.5)] active:scale-90 transition-all">
+                {slide === memories.length - 1 ? (
+                  <span className="text-[18px]">❤️</span>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                )}
               </button>
             </div>
           </motion.div>
@@ -148,69 +169,57 @@ const PhotoBook = () => {
 
         {step === 2 && !isPortrait && (
           <motion.div key="heart" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 flex items-center justify-center z-10">
-            <button onClick={() => { setDirection(-1); setStep(1); }} className="absolute top-4 left-4 z-[60] text-white/40 text-[8px] uppercase tracking-widest hover:text-[#ff007f]">← Back</button>
+            <button onClick={() => { setDirection(-1); setStep(1); }} className="absolute top-4 right-4 z-[60] text-white/40 text-[8px] uppercase tracking-widest hover:text-[#ff007f] bg-black/20 px-3 py-1 rounded-full">← Back</button>
             
-            {/* FOTO-FOTO HATI */}
             {burstPhotos.map((img, i) => (
               <motion.div key={i} initial={{ x: 0, y: 0, scale: 0 }}
-                animate={{ x: heartCoords[i]?.x || 0, y: heartCoords[i]?.y || 0, scale: window.innerHeight < 500 ? 0.7 : 0.9, rotate: (i % 2 === 0 ? 5 : -5) }}
+                animate={{ x: heartCoords[i]?.x || 0, y: heartCoords[i]?.y || 0, scale: window.innerHeight < 500 ? 0.75 : 0.95, rotate: (i % 2 === 0 ? 5 : -5) }}
                 transition={{ type: "spring", stiffness: 40, damping: 14, delay: i * 0.04 }}
-                className="absolute w-18 h-24 sm:w-22 sm:h-30 md:w-28 md:h-40 bg-white p-1.5 shadow-2xl border border-[#ff007f]/40 rounded-lg"
+                className="absolute w-20 h-28 sm:w-24 sm:h-34 md:w-32 md:h-44 bg-white p-1.5 shadow-2xl border border-[#ff007f]/40 rounded-lg"
               >
                 <img src={img} className="w-full h-full object-cover rounded-sm" alt="heart" />
               </motion.div>
             ))}
 
-            {/* AMPLOP DI TENGAH */}
-            <motion.div 
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 1.5, type: 'spring' }}
-              className="z-50"
-            >
-              <motion.div 
-                animate={{ y: [0, -10, 0] }}
-                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+            {/* AMPLOP ELEGANT */}
+            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.5, type: 'spring' }} className="z-50">
+              <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
                 onClick={() => setIsLetterOpen(true)}
-                className="relative w-24 h-16 sm:w-32 sm:h-20 bg-[#ff85a2] rounded-br-lg rounded-bl-lg shadow-2xl cursor-pointer flex items-center justify-center border-t border-white/20"
+                className="relative w-28 h-18 sm:w-36 sm:h-24 bg-[#ff85a2] rounded-br-xl rounded-bl-xl shadow-[0_20px_50px_rgba(255,133,162,0.5)] cursor-pointer flex items-center justify-center border-t border-white/30"
               >
-                <div className="absolute top-0 left-0 w-full h-0 border-l-[48px] sm:border-l-[64px] border-l-transparent border-r-[48px] sm:border-r-[64px] border-r-transparent border-t-[32px] sm:border-t-[40px] border-t-[#ffb3c1]" />
-                <span className="text-white text-[10px] font-bold tracking-tighter mt-4">OPEN ME</span>
+                <div className="absolute top-0 left-0 w-full h-0 border-l-[56px] sm:border-l-[72px] border-l-transparent border-r-[56px] sm:border-r-[72px] border-r-transparent border-t-[36px] sm:border-t-[48px] border-t-[#ffb3c1]" />
+                <span className="text-white text-[9px] sm:text-[11px] font-black tracking-widest mt-6 drop-shadow-md">BUKA SURAT ❤️</span>
               </motion.div>
             </motion.div>
 
-            {/* OVERLAY SURAT */}
+            {/* MODAL SURAT */}
             <AnimatePresence>
               {isLetterOpen && (
-                <motion.div 
-                  initial={{ opacity: 0, scale: 0.5, y: 100 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.5, y: 100 }}
-                  className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                  className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
                 >
-                  <div className="relative w-full max-w-2xl bg-[#fff9f2] p-8 sm:p-12 rounded-sm shadow-[20px_20px_60px_rgba(0,0,0,0.5)] border-l-[10px] border-[#ff85a2] overflow-y-auto max-h-[90vh]">
-                    {/* Tombol Silang */}
-                    <button 
-                      onClick={() => setIsLetterOpen(false)}
-                      className="absolute top-4 right-4 text-stone-400 hover:text-[#ff007f] transition-colors"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <motion.div initial={{ scale: 0.8, y: 50 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.8, y: 50 }}
+                    className="relative w-full max-w-2xl bg-[#fffaf5] p-8 sm:p-14 rounded-xl shadow-2xl border-l-[12px] border-[#ff85a2] overflow-y-auto max-h-[85vh]"
+                  >
+                    <button onClick={() => setIsLetterOpen(false)} className="absolute top-4 right-4 text-stone-400 hover:text-[#ff007f] transition-transform active:scale-75">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                       </svg>
                     </button>
 
-                    {/* Isi Surat */}
-                    <div className="font-serif text-stone-800 space-y-4 sm:space-y-6">
-                      <h3 className="text-xl sm:text-2xl font-bold italic text-[#ff007f]">Haii Hertii...</h3>
-                      <div className="text-sm sm:text-base leading-relaxed space-y-4">
+                    <div className="font-serif text-stone-800 space-y-6">
+                      <h3 className="text-2xl font-bold italic text-[#ff007f] border-b border-[#ff85a2]/20 pb-2">Haii Hertii...</h3>
+                      <div className="text-sm sm:text-base leading-relaxed space-y-5 antialiased">
                         <p>Selamat ulang tahun yang ke-18. Angka ini bukan sekadar pergantian umur, tapi awal dari langkah yang lebih dewasa. Semoga hal-hal baik selalu menyertai setiap jalan yang kamu pilih.</p>
-                        <p>Terima kasih telah menjadi rumah bagiku. Di antara hiruk pikuk dunia, bersamamu selalu terasa tenang. Aku bersyukur semesta membiarkan garis hidup kita bersilangan.</p>
+                        <p>Terima kasih telah menjadi rumah bagiku. Di antara hiruk pikuk dunia yang melelahkan, bersamamu selalu terasa tenang. Aku bersyukur semesta membiarkan garis hidup kita bersilangan.</p>
                         <p>Tetaplah menjadi Hertii yang penuh kasih, yang tawanya selalu menyembuhkan. Jangan pernah takut melangkah, karena aku akan selalu bangga melihatmu tumbuh dan bersinar dengan caramu sendiri.</p>
-                        <p className="pt-4 italic text-[#ff85a2] font-semibold">With all my love,</p>
-                        <p className="font-bold text-lg">- Someone who lucky to have you -</p>
+                        <div className="pt-6">
+                          <p className="italic text-[#ff85a2] font-semibold">With all my love,</p>
+                          <p className="font-bold text-lg text-stone-900">- Someone who's lucky to have you -</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -220,6 +229,7 @@ const PhotoBook = () => {
 
       <style>{`
         @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
+        .perspective-1000 { perspective: 1000px; }
       `}</style>
     </div>
   );
