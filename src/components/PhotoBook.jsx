@@ -110,7 +110,7 @@ const PhotoBook = () => {
         {isPortrait && (
           <motion.div className="fixed inset-0 z-[100] bg-stone-950 flex flex-col items-center justify-center p-6 text-center">
             <motion.div animate={{ rotate: 90 }} transition={{ repeat: Infinity, duration: 2 }} className="w-8 h-14 border-2 border-[#ff007f] rounded-lg mb-4" />
-            <p className="text-white text-[10px] uppercase tracking-[0.2em]">Miringkan HP Boss ✨</p>
+            <p className="text-white text-[10px] uppercase tracking-[0.2em]">Miringkan HP nyaa yachh &#129293;</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -178,7 +178,7 @@ const PhotoBook = () => {
                 className="relative w-28 h-18 sm:w-36 sm:h-24 bg-[#ff85a2] rounded-br-xl rounded-bl-xl shadow-[0_20px_50px_rgba(255,133,162,0.5)] cursor-pointer flex items-center justify-center border-t border-white/30"
               >
                 <div className="absolute top-0 left-0 w-full h-0 border-l-[56px] sm:border-l-[72px] border-l-transparent border-r-[56px] sm:border-r-[72px] border-r-transparent border-t-[36px] sm:border-t-[48px] border-t-[#ffb3c1]" />
-                <span className="text-white text-[9px] sm:text-[11px] font-black tracking-widest mt-6 drop-shadow-md">OPEN ME ❤️</span>
+                <span className="text-white text-[9px] sm:text-[11px] font-black tracking-widest mt-6 drop-shadow-md">OPEN ME &#129293;</span>
               </motion.div>
             </motion.div>
 
