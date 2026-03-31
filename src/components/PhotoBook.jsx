@@ -1,11 +1,11 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 
 const memories = [
   { left: "/Foto (2).jpg", right: "/Foto (1).jpg", text: "Di titik ini semua bermula, saat semesta memperkenalkan kita ✨" },
   { left: "/Foto (3).JPG", right: "/Foto (4).png", text: "Bangga melihat kita yang sekarang. Let's glow and grow up together! ❤️" },
-  { left: "/Foto (5).png", right: "/Foto (6).jpg", text: "Selamat ke-18. Semoga kedewasaan membawamu pada bahagia yang tak putus 💍" },
+  { left: "/Foto (5).png", right: "/Foto (6).jpg", text: "Selamat Ulang Tahun yang Ke-18,,,,Sweet Eighteen 💍" },
 ];
 
 const burstPhotos = [
@@ -36,6 +36,7 @@ const PhotoBook = () => {
   const [direction, setDirection] = useState(0);
   const [isPortrait, setIsPortrait] = useState(false);
   const [isLetterOpen, setIsLetterOpen] = useState(false);
+  const audioRef = useRef(null);
 
   useEffect(() => {
     const checkOrientation = () => setIsPortrait(window.innerHeight > window.innerWidth);
@@ -68,8 +69,13 @@ const PhotoBook = () => {
       setDirection(1);
       setSlide(slide + 1);
     } else {
+      // LAGU DIPUTAR DI SINI (Saat masuk kejutan hati)
+      if (audioRef.current) {
+        audioRef.current.play().catch(e => console.log("Audio play blocked"));
+        audioRef.current.volume = 0.6;
+      }
       setStep(2);
-      confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 }, colors: ['#ff007f', '#ffffff'] });
+      confetti({ particleCount: 250, spread: 100, origin: { y: 0.5 }, colors: ['#ff007f', '#ffffff'] });
     }
   };
 
@@ -89,6 +95,9 @@ const PhotoBook = () => {
   return (
     <div className="fixed inset-0 w-full h-full bg-black font-sans flex items-center justify-center overflow-hidden perspective-1000">
       
+      {/* Hidden Audio Element */}
+      <audio ref={audioRef} loop src="/musik.mp3" />
+
       {/* BACKGROUND STARS */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         {stars.map((star) => (
@@ -111,7 +120,7 @@ const PhotoBook = () => {
           <motion.div key="cover" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.05 }}
             onClick={() => { setDirection(1); setStep(1); }} className="cursor-pointer relative z-10 flex flex-col items-center">
             <div className="absolute -inset-10 bg-[#ff007f] opacity-20 blur-[50px] animate-pulse" />
-            <div className="relative w-[170px] h-[230px] sm:w-[200px] sm:h-[280px] bg-white rounded-xl flex flex-col items-center justify-center p-6 border-2 border-[#ff007f] shadow-2xl">
+            <div className="relative w-[170px] h-[230px] sm:w-[200px] sm:h-[280px] bg-white rounded-xl flex flex-col items-center justify-center p-6 border-2 border-[#ff007f] shadow-2xl text-center">
                 <h1 className="text-stone-800 font-black text-xl italic uppercase tracking-tighter">FOR <span className="text-[#ff007f]">Herti.</span></h1>
                 <p className="text-[7px] text-stone-400 mt-4 uppercase tracking-[0.3em] animate-pulse">Tap to Open</p>
             </div>
@@ -119,21 +128,13 @@ const PhotoBook = () => {
         )}
 
         {step === 1 && !isPortrait && (
-          <motion.div 
-            key={`slide-${slide}`} 
-            custom={direction} 
-            variants={slideVariants} 
-            initial="enter" 
-            animate="center" 
-            exit="exit"
+          <motion.div key={`slide-${slide}`} custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit"
             className="relative z-10 w-full h-full flex flex-col items-center justify-center px-4"
           >
-            {/* TEXT (ABSOLUTE TOP) */}
             <div className="absolute top-4 sm:top-6 w-full flex justify-center z-50">
               <Typewriter key={slide} text={memories[slide].text} />
             </div>
 
-            {/* PHOTOS (CENTER) */}
             <div className="flex flex-row gap-3 sm:gap-6 justify-center items-center w-full max-h-[75vh]">
               {[memories[slide].left, memories[slide].right].map((img, idx) => (
                 <div key={idx} className="relative h-[65vh] sm:h-[70vh] aspect-[3/4.2] shadow-[0_0_30px_rgba(255,0,127,0.35)] rounded-2xl border-2 border-[#ff007f]/40 overflow-hidden bg-white p-1.5">
@@ -143,25 +144,15 @@ const PhotoBook = () => {
             </div>
 
             {/* FLOATING NAVIGATION */}
-            {/* PREV (LEFT) */}
             <div className={`absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-[60] transition-opacity duration-300 ${slide === 0 ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
               <button onClick={handlePrev} className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-black/40 border border-white/20 text-white backdrop-blur-md active:scale-90 shadow-xl">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
               </button>
             </div>
 
-            {/* NEXT (RIGHT) */}
             <div className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-[60]">
               <button onClick={handleNext} className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-[#ff007f] text-white shadow-[0_0_20px_rgba(255,0,127,0.5)] active:scale-90 transition-all">
-                {slide === memories.length - 1 ? (
-                  <span className="text-[18px]">❤️</span>
-                ) : (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                )}
+                {slide === memories.length - 1 ? "❤️" : <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>}
               </button>
             </div>
           </motion.div>
@@ -181,18 +172,16 @@ const PhotoBook = () => {
               </motion.div>
             ))}
 
-            {/* AMPLOP ELEGANT */}
             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.5, type: 'spring' }} className="z-50">
               <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
                 onClick={() => setIsLetterOpen(true)}
                 className="relative w-28 h-18 sm:w-36 sm:h-24 bg-[#ff85a2] rounded-br-xl rounded-bl-xl shadow-[0_20px_50px_rgba(255,133,162,0.5)] cursor-pointer flex items-center justify-center border-t border-white/30"
               >
                 <div className="absolute top-0 left-0 w-full h-0 border-l-[56px] sm:border-l-[72px] border-l-transparent border-r-[56px] sm:border-r-[72px] border-r-transparent border-t-[36px] sm:border-t-[48px] border-t-[#ffb3c1]" />
-                <span className="text-white text-[9px] sm:text-[11px] font-black tracking-widest mt-6 drop-shadow-md">BUKA SURAT ❤️</span>
+                <span className="text-white text-[9px] sm:text-[11px] font-black tracking-widest mt-6 drop-shadow-md">OPEN ME ❤️</span>
               </motion.div>
             </motion.div>
 
-            {/* MODAL SURAT */}
             <AnimatePresence>
               {isLetterOpen && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -202,22 +191,23 @@ const PhotoBook = () => {
                     className="relative w-full max-w-2xl bg-[#fffaf5] p-8 sm:p-14 rounded-xl shadow-2xl border-l-[12px] border-[#ff85a2] overflow-y-auto max-h-[85vh]"
                   >
                     <button onClick={() => setIsLetterOpen(false)} className="absolute top-4 right-4 text-stone-400 hover:text-[#ff007f] transition-transform active:scale-75">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                     </button>
 
-                    <div className="font-serif text-stone-800 space-y-6">
-                      <h3 className="text-2xl font-bold italic text-[#ff007f] border-b border-[#ff85a2]/20 pb-2">Haii Hertii...</h3>
-                      <div className="text-sm sm:text-base leading-relaxed space-y-5 antialiased">
-                        <p>Selamat ulang tahun yang ke-18. Angka ini bukan sekadar pergantian umur, tapi awal dari langkah yang lebih dewasa. Semoga hal-hal baik selalu menyertai setiap jalan yang kamu pilih.</p>
-                        <p>Terima kasih telah menjadi rumah bagiku. Di antara hiruk pikuk dunia yang melelahkan, bersamamu selalu terasa tenang. Aku bersyukur semesta membiarkan garis hidup kita bersilangan.</p>
-                        <p>Tetaplah menjadi Hertii yang penuh kasih, yang tawanya selalu menyembuhkan. Jangan pernah takut melangkah, karena aku akan selalu bangga melihatmu tumbuh dan bersinar dengan caramu sendiri.</p>
-                        <div className="pt-6">
-                          <p className="italic text-[#ff85a2] font-semibold">With all my love,</p>
-                          <p className="font-bold text-lg text-stone-900">- Someone who's lucky to have you -</p>
+                    <div className="font-serif text-stone-900 space-y-5 antialiased">
+                        <h3 className="text-2xl font-bold italic text-[#ff007f] border-b border-[#ff85a2]/20 pb-2">Hii Herti...</h3>
+                        <div className="text-sm sm:text-base leading-relaxed space-y-5 tracking-wide">
+                          <p>Happy 18th Birthday. Today is not merely a change in numbers, but the beautiful beginning of your journey into adulthood. I hope the world treats you with kindness, and may every path you choose lead you to the most sincere kind of happiness.</p>
+                          <p>Thank you for being my "home"—the place where I always find peace amidst the noise and weariness of this world. I am truly grateful to the universe because, out of all the infinite possibilities, it allowed our paths to cross.</p>
+                          <p>Please, remain the compassionate Herti I’ve always known—the one whose presence brings warmth and whose soft laughter has a way of healing everything. Never hesitate to take bigger steps, for I will always be the first person to stand proud, watching you shine in your own unique way.</p>
+                          <p className="text-stone-500 italic text-[12px] sm:text-[13px] pt-4 border-t border-stone-200 leading-snug">
+                            Perhaps today, there isn't much in the way of material things I can offer, and these lines of words fall short of describing how much you truly mean to me. Forgive me if my hands are not gifted at weaving poetry, but please know that every prayer and every ounce of sincerity within them is truly yours.
+                          </p>
+                          <div className="pt-6">
+                            <p className="italic text-[#ff85a2] font-semibold">With all my love,</p>
+                            <p className="font-bold text-lg text-stone-900">- Someone who's lucky to have you -</p>
+                          </div>
                         </div>
-                      </div>
                     </div>
                   </motion.div>
                 </motion.div>

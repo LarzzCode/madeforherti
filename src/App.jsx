@@ -48,7 +48,7 @@ function App() {
             {step === 'celebration' && (
               <div className="flex flex-col items-center justify-center h-full relative z-10">
                  <motion.h1 initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-rose-500 font-serif italic text-6xl md:text-8xl text-center">
-                  Happy Birthday <br/> <span className="text-white">ANITA</span>
+                  Happy Birthday <br/> <span className="text-white">HERTI</span>
                  </motion.h1>
               </div>
             )}

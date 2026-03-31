@@ -2,9 +2,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
 const messages = [
-  { type: 'serif', text: "Systems decrypted." },
+  { type: 'serif', text: "Hiiiiiii" },
   { type: 'serif', text: "Accessing memories of her..." },
-  { type: 'serif', text: "Happy Birthday, Anita." },
+  { type: 'serif', text: "Happy Birthday, Herti" },
   { type: 'sans', text: "I hope your day is as beautiful as you are." },
   { type: 'serif', text: "For you, always." }
 ];
@@ -17,7 +17,7 @@ const SequenceText = ({ onComplete }) => {
       const timer = setTimeout(() => setIndex(prev => prev + 1), 3500);
       return () => clearTimeout(timer);
     } else {
-      const finalTimer = setTimeout(() => onComplete(), 2500);
+      const finalTimer = setTimeout(() => onComplete(), 4500);
       return () => clearTimeout(finalTimer);
     }
   }, [index, onComplete]);

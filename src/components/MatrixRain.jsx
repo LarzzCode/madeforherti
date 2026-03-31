@@ -14,8 +14,8 @@ const MatrixRain = () => {
     window.addEventListener('resize', resize);
     resize();
 
-    // Pesan khusus untuk Anita
-    const message = "HAPPY BIRTHDAY ANITA ❤ ";
+    // Pesan khusus untuk HERTI
+    const message = "HAPPY BIRTHDAY HERTI ❤ ";
     const letters = message.split("");
     
     const fontSize = 18; 

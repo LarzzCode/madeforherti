@@ -13,7 +13,7 @@ const GiftBox = ({ onOpen }) => (
     >
       <Gift size={80} strokeWidth={1.5} />
     </motion.div>
-    <p className="text-white font-dancing text-2xl drop-shadow-md">Klik kado untuk Anita 🎁</p>
+    <p className="text-white font-dancing text-2xl drop-shadow-md">Klik kado untuk Herti 🎁</p>
   </div>
 );
 
